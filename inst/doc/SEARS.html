@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>SEARS</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">SEARS</h1>
+
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(SEARS)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Loading required package: BOIN</span></span></code></pre></div>
+<p>This vignette provides a step-by-step guidance for applying phase
+I/II dose escalation/expansion with adaptive randomization scheme using
+the package <code>SEARS</code>. Here, we give the definition of type I
+error and power for following examples.</p>
+<p>Type I error: The probability of selecting any dose when there is no
+experimental dose which has better effective rate than the control arm
+or its toxicity rate is greater than the target toxicity rate. (To be
+noted: Null case satisfies either of above two criteria)</p>
+<p>Percentage of selection for each dose: In each simulation, we will
+have a “dose.select” vector for each dose, containing either 0 or 1. A
+value of 0 indicates that the dose was not selected, while a value of 1
+indicates it was selected. By averaging these values over 1000
+simulations, we can determine the percentage representing the likelihood
+of each dose being chosen as the optimal dose. It’s worth noting that
+without applying the utility function, in each simulation, there may be
+0, 1, or multiple doses selected. However, when the utility function is
+applied, 0 or only 1 dose will be selected as the optimal dose in each
+simulation.</p>
+<p>Power: For each simulation, among the doses marked as 1 in the
+“dose.select” vector, we will only consider selecting the doses that
+satisfy two conditions. Firstly, the true response rate of the dose
+should be higher than the response rate of the control arm (p.p).
+Secondly, the true toxicity rate of the dose should not exceed the
+target DLT rate (pT). Then, we claim it as a success. Power is defined
+as the average of the number of successes among (e.g., 1000)
+simulations.</p>
+<div id="examples" class="section level3">
+<h3>Examples</h3>
+<p>Example 1: Null Case</p>
+<p>We first specify the unknown true successful probability (e.g.,
+response rate) for each arm. For example, we have a total of six arms,
+0.2 for the control arm denoted as <code>p.p = 0.2</code>, and 0.2, 0.2,
+0.2, 0.2 and 0.2 for five dose/experimental arms denoted as
+<code>p.d = c(0.2, 0.2, 0.2, 0.2, 0.2)</code>. The minimal clinical
+meaningful effective size in terms of response rate is 0.2, denoted as
+pi_e = 0.2.</p>
+<p>We then specify the unknown true toxicity probability for each arm.
+For example, 0.03, 0.06, 0.17, 0.3, 0.5, denoted as
+<code>p.tox = c(0.03, 0.06, 0.17, 0.3, 0.5)</code>. We set up the target
+toxicity rate as 0.17, denoted as <code>pT = 0.17</code>. We set up the
+cohort size of phase I and phase II to be 3, denoted as
+<code>csize = 3</code> and <code>csize2 = 3</code>. We specify the
+pre-specified maximum allowable number of patients enrolled for each
+experimental dose and placebo to be 36, that is <code>d.cs = 36</code>
+and <code>p.cs = 36</code>. We give the maximum sample size of phase I
+trial to be 30, that is <code>phase1_size = 30</code>. We set up the
+cutoff number to be 18 <code>n_earlystop = 18</code> in phase I, which
+means when the number of patients enrolled at a certain dose reaches
+this value in phase I, this dose will be automatically graduated to
+phase II.</p>
+<p>For the utility function, it depends on the marginal toxicity
+probability <span class="math inline">\(\pi_{T,i} = Pr(Y_T = 1 | i =
+d)\)</span> and the efficacy probability <span class="math inline">\(\pi_{E,i} = Pr(Y_E = 1 | i = d)\)</span>, but it
+puts an additional penalty for over-toxicity and is defined as
+follows:</p>
+<p><span class="math display">\[U = \pi_{E,i} - weight1 * \pi_{T,i} -
+weight2 * \pi_{T,i} * 1(\pi_{T,i} &gt; pT)\]</span> where weight1 and
+weight2 are pre-specified weights, 1() is an indicator function, and pT
+is the target toxicity rate.</p>
+<p>For the “catch-up” rule, we require that the BAR algorithm works only
+at least 3 patients will be treated on all dose arms in the phase II
+stage, in the code, <code>n_catchup = 3</code>.</p>
+<p>The BAR algorithm here is to choose the fixed control allocation
+ratio strategy, that is, BAR only applied to the dose arms in phase II
+stage, allocation ratio for the control arm will always be <span class="math inline">\(\frac{1}{K}\)</span>, where K indicates total
+number of arms (including control arm) throughout the trial. Denoted as
+<code>control_arm = &quot;fixed&quot;</code> in the code,
+<code>power_c = 0.5</code>, <code>lower_bound = 0.05</code> refer to the
+paper for details.</p>
+<p>The last two arguments <code>weight1 = 0.5</code> and
+<code>weight2 = 0.5</code> refer to weights in the utility function when
+we are making the final decision if adopting the utility function to
+propose a promising dose. Below is the code to include the above design
+parameters and Nsim = 1000 means a thousand simulations will be
+conducted.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SEARS</span>(<span class="at">p.p =</span> <span class="fl">0.2</span>, <span class="at">p.d =</span> <span class="fu">c</span>(<span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>, <span class="fl">0.2</span>), <span class="at">p.tox =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.17</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">k1 =</span> <span class="fl">0.95</span>, <span class="at">k2 =</span> <span class="fl">0.8</span>, <span class="at">pi_t =</span> <span class="fl">0.17</span>, <span class="at">pi_e =</span> <span class="fl">0.2</span>, <span class="at">pT =</span> <span class="fl">0.17</span>, <span class="at">csize =</span> <span class="dv">3</span>, <span class="at">csize2 =</span> <span class="dv">3</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">d.cs =</span> <span class="dv">36</span>, <span class="at">p.cs =</span> <span class="dv">36</span>, <span class="at">phase1_size =</span> <span class="dv">30</span>, <span class="at">n_earlystop =</span> <span class="dv">18</span>, <span class="at">Nsim =</span> <span class="dv">1000</span>, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_catchup =</span> <span class="dv">3</span>, <span class="at">control_arm =</span> <span class="st">&quot;fixed&quot;</span>, <span class="at">power_c =</span> <span class="fl">0.5</span>, <span class="at">lower_bound =</span> <span class="fl">0.05</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight1 =</span> <span class="fl">0.5</span>, <span class="at">weight2 =</span> <span class="fl">0.5</span>, <span class="at">seed =</span> <span class="dv">100</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $typeI</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.039</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tot_sampsize_avg</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 89.004</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dose_sampsize_avg</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 24.672 24.213 18.246  6.711  1.230</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $placebo_sampsize_avg</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 13.932</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection_percentage</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.018 0.013 0.007 0.001 0.000</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tox_count_avg</span></span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.777 1.460 3.060 2.060 0.659</span></span></code></pre></div>
+<p>The output under null case shows the type I error is well controlled,
+which is 0.039. The total sample size average here is 89.004. We can
+also observe the selection percentage for each dose is very low since
+none of the experimental dose is effective under null case.</p>
+<p>Example 2: When not applying utility function in the decision making
+under H1</p>
+<p>The example below is under the alternative hypothesis, which means at
+least one dose/experimental arm is better than the control one. The
+response rates of experimental arms in this example are set to be 0.1,
+0.5, 0.6, 0.7 and 0.8, denoted as
+<code>p.d = c(0.1, 0.5, 0.6, 0.7, 0.8)</code>. Other settings will be
+the same as shown in the previous example, except for
+<code>weight1 = 0</code> and <code>weight2 = 0</code> for not applying
+utility function when making the final decision.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SEARS</span>(<span class="at">p.p =</span> <span class="fl">0.2</span>, <span class="at">p.d =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>), <span class="at">p.tox =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.17</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">k1 =</span> <span class="fl">0.95</span>, <span class="at">k2 =</span> <span class="fl">0.8</span>, <span class="at">pi_t =</span> <span class="fl">0.17</span>, <span class="at">pi_e =</span> <span class="fl">0.2</span>, <span class="at">pT =</span> <span class="fl">0.17</span>, <span class="at">csize =</span> <span class="dv">3</span>, <span class="at">csize2 =</span> <span class="dv">3</span>, </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">d.cs =</span> <span class="dv">36</span>, <span class="at">p.cs =</span> <span class="dv">36</span>, <span class="at">phase1_size =</span> <span class="dv">30</span>, <span class="at">n_earlystop =</span> <span class="dv">18</span>, <span class="at">Nsim =</span> <span class="dv">1000</span>, </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_catchup =</span> <span class="dv">3</span>, <span class="at">control_arm =</span> <span class="st">&quot;fixed&quot;</span>, <span class="at">power_c =</span> <span class="fl">0.5</span>, <span class="at">lower_bound =</span> <span class="fl">0.05</span>, </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight1 =</span> <span class="dv">0</span>, <span class="at">weight2 =</span> <span class="dv">0</span>, <span class="at">seed =</span> <span class="dv">100</span>)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $power</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.895</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tot_sampsize_avg</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 87.942</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dose_sampsize_avg</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 13.170 29.430 20.214  8.646  2.058</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $placebo_sampsize_avg</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14.424</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection_percentage</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.000 0.566 0.339 0.061 0.014</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tox_count_avg</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.384 1.702 3.438 2.468 1.073</span></span></code></pre></div>
+<p>The output from the above example shows an excellent power, which is
+0.895 under the case when at least of the experimental dose is effective
+while maintaining its toxicity rate under the target toxicity rate. We
+can also notice from the result that the <span class="math inline">\(2^{nd}\)</span> dose has the largest average
+sample size and the highest selection percentage among the five doses,
+this is because under the current setting, the second dose is much more
+effective than the placebo, while meanwhile the second dose maintains a
+very low toxicity probability compared to other effective experimental
+doses.</p>
+<p>Example 3: When applying utility function in the decision making
+(weights not 0) under H1</p>
+<p>Compared to the second example, this example applies the utility
+function for making final decision. Denoted as
+<code>weight1 = 0.5</code> and <code>weight2 = 0.5</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SEARS</span>(<span class="at">p.p =</span> <span class="fl">0.2</span>, <span class="at">p.d =</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.5</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>), <span class="at">p.tox =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.17</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">k1 =</span> <span class="fl">0.95</span>, <span class="at">k2 =</span> <span class="fl">0.8</span>, <span class="at">pi_t =</span> <span class="fl">0.17</span>, <span class="at">pi_e =</span> <span class="fl">0.2</span>, <span class="at">pT =</span> <span class="fl">0.17</span>, <span class="at">csize =</span> <span class="dv">3</span>, <span class="at">csize2 =</span> <span class="dv">3</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">d.cs =</span> <span class="dv">36</span>, <span class="at">p.cs =</span> <span class="dv">36</span>, <span class="at">phase1_size =</span> <span class="dv">30</span>, <span class="at">n_earlystop =</span> <span class="dv">18</span>, <span class="at">Nsim =</span> <span class="dv">1000</span>, </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_catchup =</span> <span class="dv">3</span>, <span class="at">control_arm =</span> <span class="st">&quot;fixed&quot;</span>, <span class="at">power_c =</span> <span class="fl">0.5</span>, <span class="at">lower_bound =</span> <span class="fl">0.05</span>, </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight1 =</span> <span class="fl">0.5</span>, <span class="at">weight2 =</span> <span class="fl">0.5</span>, <span class="at">seed =</span> <span class="dv">100</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $power</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.904</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tot_sampsize_avg</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 87.942</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dose_sampsize_avg</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 13.170 29.430 20.214  8.646  2.058</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $placebo_sampsize_avg</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 14.424</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection_percentage</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.000 0.630 0.280 0.031 0.001</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tox_count_avg</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.384 1.702 3.438 2.468 1.073</span></span></code></pre></div>
+<p>The output above shows after applying the utility function for making
+final dose selection, the probability that we are going to select the
+<span class="math inline">\(2^{nd}\)</span> dose as the most optimal one
+increases from 0.566 to 0.630, while the selection percentage of the
+<span class="math inline">\(3^{rd}\)</span> dose decreases from 0.339 to
+0.280. This is because the utility function favors the dose which has a
+larger treatment effect while also has a lower toxicity rate.</p>
+<p>Example 4: When first two doses are very safe</p>
+<p>This example compared to the above third example explores different
+set of response rate for experimental doses, where
+<code>p.d = c(0.01, 0.05, 0.6, 0.7, 0.8)</code></p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SEARS</span>(<span class="at">p.p =</span> <span class="fl">0.2</span>, <span class="at">p.d =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.05</span>, <span class="fl">0.6</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>), <span class="at">p.tox =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.12</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">k1 =</span> <span class="fl">0.95</span>, <span class="at">k2 =</span> <span class="fl">0.8</span>, <span class="at">pi_t =</span> <span class="fl">0.17</span>, <span class="at">pi_e =</span> <span class="fl">0.2</span>, <span class="at">pT =</span> <span class="fl">0.17</span>, <span class="at">csize =</span> <span class="dv">3</span>, <span class="at">csize2 =</span> <span class="dv">3</span>, </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">d.cs =</span> <span class="dv">36</span>, <span class="at">p.cs =</span> <span class="dv">36</span>, <span class="at">phase1_size =</span> <span class="dv">30</span>, <span class="at">n_earlystop =</span> <span class="dv">18</span>, <span class="at">Nsim =</span> <span class="dv">1000</span>, <span class="at">n_catchup =</span> <span class="dv">3</span>, </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">control_arm =</span> <span class="st">&quot;fixed&quot;</span>, <span class="at">power_c =</span> <span class="fl">0.5</span>, <span class="at">lower_bound =</span> <span class="fl">0.05</span>, <span class="at">weight1 =</span> <span class="fl">0.5</span>, </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight2 =</span> <span class="fl">0.5</span>, <span class="at">seed =</span> <span class="dv">100</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $power</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.695</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tot_sampsize_avg</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 65.238</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dose_sampsize_avg</span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  7.107 11.562 28.173  9.021  2.133</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $placebo_sampsize_avg</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 7.242</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection_percentage</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.000 0.000 0.695 0.041 0.000</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tox_count_avg</span></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.244 0.723 3.321 2.657 1.032</span></span></code></pre></div>
+<p>We can see form the output above that the power is lower than the
+previous two examples. This is because in this case, the most effective
+dose while its toxicity rate no less than the target toxicity rate is
+the <span class="math inline">\(3^{rd}\)</span> dose. But the toxicity
+rate of the third dose, which is 0.12 is close to the target one, 0.17.
+This will lead to the power decreasing. The selection percentage of the
+third dose dominates other doses. This can be attributed to its good
+performance of the effective and toxicity rate.</p>
+<p>Example 5: Unfixed probability for control arm</p>
+<p>This example explores when we set up the control arm as “unfixed”,
+which means in the phase II part with using the BAR algorithm,
+allocation probability of the control arm will be adaptive based on its
+updated estimated response rate. Here,
+<code>p.d = c(0.01, 0.6, 0.65, 0.7, 0.8)</code> and
+<code>control_arm = &quot;&quot;</code> in the code.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SEARS</span>(<span class="at">p.p =</span> <span class="fl">0.2</span>, <span class="at">p.d =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>), <span class="at">p.tox =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.12</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">k1 =</span> <span class="fl">0.95</span>, <span class="at">k2 =</span> <span class="fl">0.8</span>, <span class="at">pi_t =</span> <span class="fl">0.17</span>, <span class="at">pi_e =</span> <span class="fl">0.2</span>, <span class="at">pT =</span> <span class="fl">0.17</span>, <span class="at">csize =</span> <span class="dv">3</span>, <span class="at">csize2 =</span> <span class="dv">3</span>, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">d.cs =</span> <span class="dv">36</span>, <span class="at">p.cs =</span> <span class="dv">36</span>, <span class="at">phase1_size =</span> <span class="dv">30</span>, <span class="at">n_earlystop =</span> <span class="dv">18</span>, <span class="at">Nsim =</span> <span class="dv">1000</span>, </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_catchup =</span> <span class="dv">10</span>, <span class="at">control_arm =</span> <span class="st">&quot;&quot;</span>, <span class="at">power_c =</span> <span class="fl">0.5</span>, <span class="at">lower_bound =</span> <span class="fl">0.05</span>, <span class="at">weight1 =</span> <span class="fl">0.5</span>, </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight2 =</span> <span class="fl">0.5</span>, <span class="at">seed =</span> <span class="dv">100</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $power</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.917</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tot_sampsize_avg</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 86.922</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dose_sampsize_avg</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  9.495 28.176 25.044  9.672  2.262</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $placebo_sampsize_avg</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 12.273</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection_percentage</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.000 0.532 0.394 0.024 0.001</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tox_count_avg</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.298 1.709 2.997 2.813 1.130</span></span></code></pre></div>
+<p>From the output above, we can see the power is high, which is 0.917.
+The <span class="math inline">\(2^{nd}\)</span> dose has the largest
+average sample size and the highest selection percentage among the five
+doses. This is because the second dose is much more effective than the
+placebo, while its toxicity rate is much lower than other effective
+doses.</p>
+<p>Example 6: Fixed probability for control arm</p>
+<p>This example explores when we set up the control arm as “fixed”,
+which means in the phase II part with using the BAR algorithm,
+allocation probability of the control arm will be fixed as <span class="math inline">\(\frac{1}{K}\)</span>, where K indicates total
+number of arms (including control arm). Here,
+<code>p.d = c(0.01, 0.6, 0.65, 0.7, 0.8)</code> and
+<code>control_arm = &quot;fixed&quot;</code></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SEARS</span>(<span class="at">p.p =</span> <span class="fl">0.2</span>, <span class="at">p.d =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>), <span class="at">p.tox =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.12</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">k1 =</span> <span class="fl">0.95</span>, <span class="at">k2 =</span> <span class="fl">0.8</span>, <span class="at">pi_t =</span> <span class="fl">0.17</span>, <span class="at">pi_e =</span> <span class="fl">0.2</span>, <span class="at">pT =</span> <span class="fl">0.17</span>, <span class="at">csize =</span> <span class="dv">3</span>, <span class="at">csize2 =</span> <span class="dv">3</span>, </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">d.cs =</span> <span class="dv">36</span>, <span class="at">p.cs =</span> <span class="dv">36</span>, <span class="at">phase1_size =</span> <span class="dv">30</span>, <span class="at">n_earlystop =</span> <span class="dv">18</span>, <span class="at">Nsim =</span> <span class="dv">1000</span>, </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_catchup =</span> <span class="dv">10</span>, <span class="at">control_arm =</span> <span class="st">&quot;fixed&quot;</span>, <span class="at">power_c =</span> <span class="fl">0.5</span>, <span class="at">lower_bound =</span> <span class="fl">0.05</span>, </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight1 =</span> <span class="fl">0.5</span>, <span class="at">weight2 =</span> <span class="fl">0.5</span>, <span class="at">seed =</span> <span class="dv">100</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $power</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.917</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tot_sampsize_avg</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 90.747</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dose_sampsize_avg</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1]  9.642 28.128 23.742 10.101  2.508</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $placebo_sampsize_avg</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 16.626</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection_percentage</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.000 0.509 0.420 0.031 0.001</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tox_count_avg</span></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.291 1.699 2.807 2.902 1.221</span></span></code></pre></div>
+<p>We can see from the output above the total sample size on average
+increases compared to the previous example because of the fixed
+probability for the control arm in the adaptive randomization period.
+The rationale behind scenes is because when the allocation probability
+is fixed for the control arm, it cannot reduce the probability of
+assigning patients to the ineffective control arm, which leads to the
+increasing sample size. We can also notice that the average placebo
+sample size increases in this example as well.</p>
+<p>Example 7: Equal randomization in phase II</p>
+<p>This example explores the property when we apply an equal
+randomization in phase II. Here,
+<code>p.d = c(0.01, 0.6, 0.65, 0.7, 0.8)</code>,
+<code>power_c = 0</code> and <code>lower_bound = 0</code></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">SEARS</span>(<span class="at">p.p =</span> <span class="fl">0.2</span>, <span class="at">p.d =</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.6</span>, <span class="fl">0.65</span>, <span class="fl">0.7</span>, <span class="fl">0.8</span>), <span class="at">p.tox =</span> <span class="fu">c</span>(<span class="fl">0.03</span>, <span class="fl">0.06</span>, <span class="fl">0.12</span>, <span class="fl">0.3</span>, <span class="fl">0.5</span>),</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>      <span class="at">k1 =</span> <span class="fl">0.95</span>, <span class="at">k2 =</span> <span class="fl">0.8</span>, <span class="at">pi_t =</span> <span class="fl">0.17</span>, <span class="at">pi_e =</span> <span class="fl">0.2</span>, <span class="at">pT =</span> <span class="fl">0.17</span>, <span class="at">csize =</span> <span class="dv">3</span>, <span class="at">csize2 =</span> <span class="dv">3</span>, </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>      <span class="at">d.cs =</span> <span class="dv">36</span>, <span class="at">p.cs =</span> <span class="dv">36</span>, <span class="at">phase1_size =</span> <span class="dv">30</span>, <span class="at">n_earlystop =</span> <span class="dv">18</span>, <span class="at">Nsim =</span> <span class="dv">1000</span>, </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">n_catchup =</span> <span class="dv">10</span>, <span class="at">control_arm =</span> <span class="st">&quot;fixed&quot;</span>, <span class="at">power_c =</span> <span class="dv">0</span>, <span class="at">lower_bound =</span> <span class="dv">0</span>, </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">weight1 =</span> <span class="fl">0.5</span>, <span class="at">weight2 =</span> <span class="fl">0.5</span>, <span class="at">seed =</span> <span class="dv">100</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $power</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.731</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tot_sampsize_avg</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 96.042</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $dose_sampsize_avg</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 10.443 33.975 27.282 15.165  3.129</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $placebo_sampsize_avg</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 6.048</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $selection_percentage</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.001 0.431 0.303 0.188 0.025</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; $tox_count_avg</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] 0.314 2.067 1.982 2.092 1.169</span></span></code></pre></div>
+<p>Compared to the previous example, the output above shows an
+increasing total sample size on average when applying equal
+randomization. The average sample size for each dose also increases
+while the selection percentage for the optimal dose, which includes the
+<span class="math inline">\(2^{nd}\)</span> and the <span class="math inline">\(3^{rd}\)</span> dose, decreases.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

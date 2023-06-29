@@ -1,0 +1,153 @@
+---
+title: "SEARS"
+output: rmarkdown::html_vignette
+
+vignette: >
+  %\VignetteIndexEntry{Phase I/II seamless dose escalation/expansion with adaptive randomization scheme}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, warning = FALSE}
+library(SEARS)
+```
+This vignette provides a step-by-step guidance for applying phase I/II dose escalation/expansion with adaptive randomization scheme using the package `SEARS`. Here, we give the definition of type I error and power for following examples.
+
+Type I error: The probability of selecting any dose when there is no experimental dose which has better effective rate than the control arm or its toxicity rate is greater than the target toxicity rate. (To be noted: Null case satisfies either of above two criteria)
+
+Percentage of selection for each dose: In each simulation, we will have a "dose.select" vector for each dose, containing either 0 or 1. A value of 0 indicates that the dose was not selected, while a value of 1 indicates it was selected. By averaging these values over 1000 simulations, we can determine the percentage representing the likelihood of each dose being chosen as the optimal dose. It's worth noting that without applying the utility function, in each simulation, there may be 0, 1, or multiple doses selected. However, when the utility function is applied, 0 or only 1 dose will be selected as the optimal dose in each simulation.
+
+Power: For each simulation, among the doses marked as 1 in the “dose.select” vector, we will only consider selecting the doses that satisfy two conditions. Firstly, the true response rate of the dose should be higher than the response rate of the control arm (p.p). Secondly, the true toxicity rate of the dose should not exceed the target DLT rate (pT). Then, we claim it as a success. Power is defined as the average of the number of successes among (e.g., 1000) simulations.
+
+ 
+
+### Examples
+
+
+
+Example 1: Null Case
+
+We first specify the unknown true successful probability (e.g., response rate) for each arm. For example, we have a total of six arms, 0.2 for the control arm denoted as `p.p = 0.2`, and 0.2, 0.2, 0.2, 0.2 and 0.2 for five dose/experimental arms denoted as `p.d = c(0.2, 0.2, 0.2, 0.2, 0.2)`. The minimal clinical meaningful effective size in terms of response rate is 0.2, denoted as pi_e = 0.2.
+
+We then specify the unknown true toxicity probability for each arm. For example, 0.03, 0.06, 0.17, 0.3, 0.5, denoted as `p.tox = c(0.03, 0.06, 0.17, 0.3, 0.5)`. We set up the target toxicity rate as 0.17, denoted as `pT = 0.17`. We set up the cohort size of phase I and phase II to be 3, denoted as `csize = 3` and `csize2 = 3`. We specify the pre-specified maximum allowable number of patients enrolled for each experimental dose and placebo to be 36, that is `d.cs = 36` and `p.cs = 36`. We give the maximum sample size of phase I trial to be 30, that is `phase1_size = 30`. We set up the cutoff number to be 18 `n_earlystop = 18` in phase I, which means when the number of patients enrolled at a certain dose reaches this value in phase I, this dose will be automatically graduated to phase II. 
+
+For the utility function, it depends on the marginal toxicity probability $\pi_{T,i} = Pr(Y_T = 1 | i = d)$ and the efficacy probability $\pi_{E,i} = Pr(Y_E = 1 | i = d)$, but it puts an additional penalty for over-toxicity and is defined as follows:
+
+$$U = \pi_{E,i} - weight1 * \pi_{T,i} - weight2 * \pi_{T,i} * 1(\pi_{T,i} > pT)$$ 
+where weight1 and weight2 are pre-specified weights, 1() is an indicator function, and pT is the target toxicity rate.
+
+For the "catch-up" rule, we require that the BAR algorithm works only at least 3 patients will be treated on all dose arms in the phase II stage, in the code, `n_catchup = 3`.
+
+The BAR algorithm here is to choose the fixed control allocation ratio strategy, that is, BAR only applied to the dose arms in phase II stage, allocation ratio for the control arm will always be $\frac{1}{K}$, where K indicates total number of arms (including control arm) throughout the trial. Denoted as `control_arm = "fixed"` in the code, `power_c = 0.5`, `lower_bound = 0.05` refer to the paper for details.
+
+
+The last two arguments `weight1 = 0.5` and `weight2 = 0.5` refer to weights in the utility function when we are making the final decision if adopting the utility function to propose a promising dose. Below is the code to include the above design parameters and Nsim = 1000 means a thousand simulations will be conducted. 
+
+```{r}
+SEARS(p.p = 0.2, p.d = c(0.2, 0.2, 0.2, 0.2, 0.2), p.tox = c(0.03, 0.06, 0.17, 0.3, 0.5),
+      k1 = 0.95, k2 = 0.8, pi_t = 0.17, pi_e = 0.2, pT = 0.17, csize = 3, csize2 = 3, 
+      d.cs = 36, p.cs = 36, phase1_size = 30, n_earlystop = 18, Nsim = 1000, 
+      n_catchup = 3, control_arm = "fixed", power_c = 0.5, lower_bound = 0.05, 
+      weight1 = 0.5, weight2 = 0.5, seed = 100)
+```
+The output under null case shows the type I error is well controlled, which is 0.039. The total sample size average here is 89.004. We can also observe the selection percentage for each dose is very low since none of the experimental dose is effective under null case. 
+
+
+
+Example 2: When not applying utility function in the decision making under H1
+
+The example below is under the alternative hypothesis, which means at least one dose/experimental arm is better than the control one. The response rates of experimental arms in this example are set to be 0.1, 0.5, 0.6, 0.7 and 0.8, denoted as `p.d = c(0.1, 0.5, 0.6, 0.7, 0.8)`. Other settings will be the same as shown in the previous example, except for `weight1 = 0` and `weight2 = 0` for not applying utility function when making the final decision.
+
+```{r}
+SEARS(p.p = 0.2, p.d = c(0.1, 0.5, 0.6, 0.7, 0.8), p.tox = c(0.03, 0.06, 0.17, 0.3, 0.5),
+      k1 = 0.95, k2 = 0.8, pi_t = 0.17, pi_e = 0.2, pT = 0.17, csize = 3, csize2 = 3, 
+      d.cs = 36, p.cs = 36, phase1_size = 30, n_earlystop = 18, Nsim = 1000, 
+      n_catchup = 3, control_arm = "fixed", power_c = 0.5, lower_bound = 0.05, 
+      weight1 = 0, weight2 = 0, seed = 100)
+```
+The output from the above example shows an excellent power, which is 0.895 under the case when at least of the experimental dose is effective while maintaining its toxicity rate under the target toxicity rate. We can also notice from the result that the $2^{nd}$ dose has the largest average sample size and the highest selection percentage among the five doses, this is because under the current setting, the second dose is much more effective than the placebo, while meanwhile the second dose maintains a very low toxicity probability compared to other effective experimental doses.
+
+
+
+Example 3: When applying utility function in the decision making (weights not 0) under H1
+
+Compared to the second example, this example applies the utility function for making final decision. Denoted as `weight1 = 0.5` and `weight2 = 0.5`
+
+```{r}
+SEARS(p.p = 0.2, p.d = c(0.1, 0.5, 0.6, 0.7, 0.8), p.tox = c(0.03, 0.06, 0.17, 0.3, 0.5),
+      k1 = 0.95, k2 = 0.8, pi_t = 0.17, pi_e = 0.2, pT = 0.17, csize = 3, csize2 = 3, 
+      d.cs = 36, p.cs = 36, phase1_size = 30, n_earlystop = 18, Nsim = 1000, 
+      n_catchup = 3, control_arm = "fixed", power_c = 0.5, lower_bound = 0.05, 
+      weight1 = 0.5, weight2 = 0.5, seed = 100)
+```
+The output above shows after applying the utility function for making final dose selection, the probability that we are going to select the $2^{nd}$ dose as the most optimal one increases from 0.566 to 0.630, while the selection percentage of the $3^{rd}$ dose decreases from 0.339 to 0.280. This is because the utility function favors the dose which has a larger treatment effect while also has a lower toxicity rate.
+
+
+
+Example 4: When first two doses are very safe
+
+This example compared to the above third example explores different set of response rate for experimental doses, where `p.d = c(0.01, 0.05, 0.6, 0.7, 0.8)`
+
+```{r}
+SEARS(p.p = 0.2, p.d = c(0.01, 0.05, 0.6, 0.7, 0.8), p.tox = c(0.03, 0.06, 0.12, 0.3, 0.5),
+      k1 = 0.95, k2 = 0.8, pi_t = 0.17, pi_e = 0.2, pT = 0.17, csize = 3, csize2 = 3, 
+      d.cs = 36, p.cs = 36, phase1_size = 30, n_earlystop = 18, Nsim = 1000, n_catchup = 3, 
+      control_arm = "fixed", power_c = 0.5, lower_bound = 0.05, weight1 = 0.5, 
+      weight2 = 0.5, seed = 100)
+```
+We can see form the output above that the power is lower than the previous two examples. This is because in this case, the most effective dose while its toxicity rate no less than the target toxicity rate is the $3^{rd}$ dose. But the toxicity rate of the third dose, which is 0.12 is close to the target one, 0.17. This will lead to the power decreasing. The selection percentage of the third dose dominates other doses. This can be attributed to its good performance of the effective and toxicity rate.  
+
+
+
+Example 5: Unfixed probability for control arm
+
+This example explores when we set up the control arm as "unfixed", which means in the phase II part with using the BAR algorithm, allocation probability of the control arm will be adaptive based on its updated estimated response rate. Here, `p.d = c(0.01, 0.6, 0.65, 0.7, 0.8)` and `control_arm = ""` in the code.
+
+```{r}
+SEARS(p.p = 0.2, p.d = c(0.01, 0.6, 0.65, 0.7, 0.8), p.tox = c(0.03, 0.06, 0.12, 0.3, 0.5),
+      k1 = 0.95, k2 = 0.8, pi_t = 0.17, pi_e = 0.2, pT = 0.17, csize = 3, csize2 = 3, 
+      d.cs = 36, p.cs = 36, phase1_size = 30, n_earlystop = 18, Nsim = 1000, 
+      n_catchup = 10, control_arm = "", power_c = 0.5, lower_bound = 0.05, weight1 = 0.5, 
+      weight2 = 0.5, seed = 100)
+```
+From the output above, we can see the power is high, which is 0.917. The $2^{nd}$ dose has the largest average sample size and the highest selection percentage among the five doses. This is because the second dose is much more effective than the placebo, while its toxicity rate is much lower than other effective doses.
+
+
+
+Example 6: Fixed probability for control arm
+
+This example explores when we set up the control arm as "fixed", which means in the phase II part with using the BAR algorithm, allocation probability of the control arm will be fixed as $\frac{1}{K}$, where K indicates total number of arms (including control arm). Here, `p.d = c(0.01, 0.6, 0.65, 0.7, 0.8)` and `control_arm = "fixed"`
+
+```{r}
+SEARS(p.p = 0.2, p.d = c(0.01, 0.6, 0.65, 0.7, 0.8), p.tox = c(0.03, 0.06, 0.12, 0.3, 0.5),
+      k1 = 0.95, k2 = 0.8, pi_t = 0.17, pi_e = 0.2, pT = 0.17, csize = 3, csize2 = 3, 
+      d.cs = 36, p.cs = 36, phase1_size = 30, n_earlystop = 18, Nsim = 1000, 
+      n_catchup = 10, control_arm = "fixed", power_c = 0.5, lower_bound = 0.05, 
+      weight1 = 0.5, weight2 = 0.5, seed = 100)
+```
+We can see from the output above the total sample size on average increases compared to the previous example because of the fixed probability for the control arm in the adaptive randomization period. The rationale behind scenes is because when the allocation probability is fixed for the control arm, it cannot reduce the probability of assigning patients to the ineffective control arm, which leads to the increasing sample size. We can also notice that the average placebo sample size increases in this example as well.
+
+
+
+Example 7: Equal randomization in phase II
+
+This example explores the property when we apply an equal randomization in phase II. Here, `p.d = c(0.01, 0.6, 0.65, 0.7, 0.8)`, `power_c = 0` and `lower_bound = 0`
+
+```{r}
+SEARS(p.p = 0.2, p.d = c(0.01, 0.6, 0.65, 0.7, 0.8), p.tox = c(0.03, 0.06, 0.12, 0.3, 0.5),
+      k1 = 0.95, k2 = 0.8, pi_t = 0.17, pi_e = 0.2, pT = 0.17, csize = 3, csize2 = 3, 
+      d.cs = 36, p.cs = 36, phase1_size = 30, n_earlystop = 18, Nsim = 1000, 
+      n_catchup = 10, control_arm = "fixed", power_c = 0, lower_bound = 0, 
+      weight1 = 0.5, weight2 = 0.5, seed = 100)
+```
+
+
+
+Compared to the previous example, the output above shows an increasing total sample size on average when applying equal randomization. The average sample size for each dose also increases while the selection percentage for the optimal dose, which includes the $2^{nd}$ and the $3^{rd}$ dose, decreases.  
